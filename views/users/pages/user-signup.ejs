@@ -1,0 +1,146 @@
+
+<%- include('../partials/header.ejs')%>
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>SignUP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="register-form">
+                        <h2>Register</h2>
+                        <form action="/post-signup" method="post">
+                            <div class="group-input">
+                                <label for="fname">First Name *</label>
+                                <input type="text" id="fname" name="fname">
+                            </div>
+                            <div class="group-input">
+                                <label for="lname">Last Name *</label>
+                                <input type="text" id="lname" name="lname">
+                            </div>
+                            <div class="group-input">
+                                <label for="email">Email *</label>
+                                <input type="text" id="email" name="email">
+                            </div>
+                            <div class="group-input">
+                                <label for="mobile">Mobile*</label>
+                                <input type="text" id="mobile" name="mobile">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Password *</label>
+                                <input type="password" id="pass" name="password">
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Confirm Password *</label>
+                                <input type="password" id="con-pass" >
+                            </div>
+                            <button type="submit" class="site-btn register-btn">REGISTER</button>
+                            <div class="group-input">
+                                <button type="button" class="btn btn-sm btn-fill-out btn-block hover-up" id="sendOTPButton" name="sendOTPBtn" onclick="sendOTP()">Send OTP</button>
+                            </div>
+                            <div class="group-input">
+                                <input type="text" required="" name="otpInput" placeholder="Enter OTP" id="otpInput">
+                            </div>
+                            <div class="group-input">
+                                <button type="button" class="btn btn-sm btn-fill-out btn-block hover-up" id="verifyOTPButton" name="verifyOTPBtn">Verify OTP</button>
+                            </div>
+                        </form>
+                        <div class="switch-login">
+                            <a href="/login" class="or-login">Or Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var registerForm = document.querySelector('form');
+    
+            registerForm.addEventListener('submit', function (event) {
+                // Validate first name
+                var firstNameInput = document.getElementById('firstname');
+                if (firstNameInput.value.trim() === '') {
+                    alert('Please enter your first name.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate last name
+                var lastNameInput = document.getElementById('lastname');
+                if (lastNameInput.value.trim() === '') {
+                    alert('Please enter your last name.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate email
+                var emailInput = document.getElementById('email');
+                if (!isValidEmail(emailInput.value)) {
+                    alert('Please enter a valid email address.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate mobile
+                var mobileInput = document.getElementById('mobile');
+                if (!isValidMobile(mobileInput.value)) {
+                    alert('Please enter a valid mobile number.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate password
+                var passwordInput = document.getElementById('pass');
+                if (passwordInput.value.length < 8) {
+                    alert('Password must be at least 8 characters.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate password confirmation
+                var confirmPasswordInput = document.getElementById('con-pass');
+                if (confirmPasswordInput.value !== passwordInput.value) {
+                    alert('Passwords do not match.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // If all validations pass, the form will be submitted
+                return true;
+            });
+    
+            function isValidEmail(email) {
+                // Simple email validation regex
+                var emailRegex = /\S+@\S+\.\S+/;
+                return emailRegex.test(email);
+            }
+    
+            function isValidMobile(mobile) {
+                // Simple mobile number validation regex
+                var mobileRegex = /^\d{10}$/;
+                return mobileRegex.test(mobile);
+            }
+        });
+    </script>
+    
+    
+
+    
+
+    <%- include('../partials/footer.ejs')%>

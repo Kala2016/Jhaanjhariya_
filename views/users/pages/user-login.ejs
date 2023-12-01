@@ -1,0 +1,93 @@
+<%- include('../partials/header.ejs')%>
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Form Section Begin -->
+
+    <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="login-form">
+                        <h2>Login</h2>
+                        <form action="/postLogin" method="post" id="loginForm">
+                            <div class="group-input">
+                                <label for="username">Email address *</label>
+                                <input type="text" id="username" name="email">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Password *</label>
+                                <input type="password" id="pass" name="password">
+                            </div>
+                            <div class="group-input gi-check">
+                                <div class="gi-more">
+                                    <label for="save-pass">
+                                        Save Password
+                                        <input type="checkbox" id="save-pass">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <a href="#" class="forget-pass">Forget your Password</a>
+                                </div>
+                            </div>
+                            <button type="submit" class="site-btn login-btn">Sign In</button>
+                        </form>
+                        <div class="switch-login">
+                            <a href="/user-signup" class="or-login">Or Create An Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var loginForm = document.querySelector('form');
+    
+            loginForm.addEventListener('submit', function (event) {
+                // Validate email
+                var emailInput = document.getElementById('username');
+                if (!isValidEmail(emailInput.value)) {
+                    alert('Please enter a valid email address.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Validate password
+                var passwordInput = document.getElementById('pass');
+                if (passwordInput.value.length < 8) {
+                    alert('Password must be at least 8 characters.');
+                    event.preventDefault(); // Prevent form submission
+                    return false;
+                }
+    
+                // Additional validations can be added as needed
+    
+                // If all validations pass, the form will be submitted
+                return true;
+            });
+    
+            function isValidEmail(email) {
+                // Simple email validation regex
+                var emailRegex = /\S+@\S+\.\S+/;
+                return emailRegex.test(email);
+            }
+        });
+    </script>
+    
+
+    
+    <%- include('../partials/footer.ejs')%>
