@@ -3,7 +3,7 @@ const adminCollection = require("../models/adminSchema");
 const productCollection = require("../models/ProductSchema");
 
 
-//Login Admin Page
+//Login Admin Page  
 const loadLogin = async (req, res) => {  
   try {
     res.render("./admin/login", { title: "Login" });

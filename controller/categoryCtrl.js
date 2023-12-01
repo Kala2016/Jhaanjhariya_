@@ -32,7 +32,7 @@ const getCategory = async (req, res) => {
 //     res.status(200);
 //   }
 // }
-
+    
 
 // adding catagory data
 module.exports.postCategory = async (req, res) => {
