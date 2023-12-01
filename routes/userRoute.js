@@ -56,7 +56,11 @@ userRoute.get('/logout', homeController.getLogout); // Corrected route
 
 //Routes Login Page
 userRoute.get('/login', loginController.getLogin);
-userRoute.post('/post-login', loginController.postLogin);
+userRoute.post('/postLogin', loginController.postLogin);
+
+userRoute.post('/sendOtp', loginController.postSendOtp);
+
+
 
 //Routes Signup Page
 userRoute.get("/user-signup", signupController.getUserSignup); 

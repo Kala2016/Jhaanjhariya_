@@ -9,6 +9,8 @@ const dotenv = require("dotenv").config();
 const logger = require("morgan");
 const mongoose = require('mongoose')
 
+const cookieParcer = require('cookie-parser')
+
 const PORT = process.env.PORT || 4000;
 
 const userRoute = require("./routes/userRoute");
@@ -20,7 +22,7 @@ app.use(logger("dev"));
 app.use(nocache());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieparser());
+app.use(cookieParcer());
 app.use("/uploads", express.static("uploads"));
 
 //setting

@@ -49,7 +49,7 @@
                             </div>
                             <button type="submit" class="site-btn register-btn">REGISTER</button>
                             <div class="group-input">
-                                <button type="button" class="btn btn-sm btn-fill-out btn-block hover-up" id="sendOTPButton" name="sendOTPBtn" onclick="sendOTP()">Send OTP</button>
+                                <button type="button" class="btn btn-sm btn-fill-out btn-block hover-up" id="sendOTPButton" name="sendOTPBtn" onclick="() => {sendOTP()}">Send OTP</button>
                             </div>
                             <div class="group-input">
                                 <input type="text" required="" name="otpInput" placeholder="Enter OTP" id="otpInput">
@@ -69,6 +69,39 @@
     <!-- Register Form Section End -->
 
     <script>
+
+        document.getElementById('sendOTPButton').addEventListener('click', () => {
+            const email = document.getElementById('email').value
+            fetch('/sendOtp?email=' + email, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error))
+        })
+
+        document.getElementById('verifyOTPButton').addEventListener('click', () => {
+            const otp = document.getElementById('otpInput').value
+
+
+            fetch('/verify-otp?otp=' + otp, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(response.ok) {
+                    window.open('/login')
+                }
+            })
+            .catch((error) => console.log(error))
+        })
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
             var registerForm = document.querySelector('form');
     
