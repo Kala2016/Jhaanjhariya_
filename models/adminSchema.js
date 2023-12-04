@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const adminSchema = new mongoose.Schema({
+const Schema = mongoose.Schema
+
+const adminSchema = new Schema({
   email: {
     required: true,
     type: String,
@@ -13,4 +15,8 @@ const adminSchema = new mongoose.Schema({
 const adminCollection = mongoose.model("adminCollection",adminSchema);
 
 
-module.exports = adminCollection;
+module.exports = {
+  
+  adminCollection
+
+}
