@@ -30,4 +30,10 @@ const userSchema = new mongoose.Schema({
 });
 
 const userCollection = mongoose.model("userCollection", userSchema);
-module.exports = userCollection;
+
+
+module.exports = {
+  userCollection
+}
+
+

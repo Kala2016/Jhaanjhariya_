@@ -68,7 +68,7 @@
     </div>
     <!-- Register Form Section End -->
 
-    <script>
+    <script> 
 
         document.getElementById('sendOTPButton').addEventListener('click', () => {
             const email = document.getElementById('email').value
@@ -83,7 +83,9 @@
         })
 
         document.getElementById('verifyOTPButton').addEventListener('click', () => {
+            console.log('click action in verify otp');
             const otp = document.getElementById('otpInput').value
+            console.log('verifyOtp',otp);
 
 
             fetch('/verify-otp?otp=' + otp, {
