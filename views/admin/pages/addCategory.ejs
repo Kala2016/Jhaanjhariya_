@@ -45,7 +45,7 @@
                 <span class="hide-menu">Admin Management</span>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link" href='/admin/products' aria-expanded="false">
+                <a class="sidebar-link" href='/admin/Products' aria-expanded="false">
                   <span>
                     <i class="ti ti-article"></i>
                   </span>
@@ -77,7 +77,7 @@
                 </a>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link" href="./userManagement" aria-expanded="false">
+                <a class="sidebar-link" href="./userList" aria-expanded="false">
                   <span>
                     <i class="ti ti-file-description"></i>
                   </span>
@@ -206,97 +206,112 @@
         </nav>
       </header>
       <!--  Header End -->
-      <br>
-      <br>
-      <br>
-      
       <section class="content-main">
-        <div class="row">            
-            
+        <div class="row">
             <div class="col-9">
                 <div class="content-header">
-                    
-                    <h2 class="content-title"></h2>
-                    <div class=" justify-content-center" >
-                        <div><button type="button" class="btn btn-outline-primary btn-sm m-1">Save to Draft</button>
-                        <button type="button" class="btn btn-primary btn-sm m-1">Publish</button></div>
-                        
+                    <h4 class="content-title"></h4>
+                    <div>
+                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up"></button>
+                        <button class="btn btn-md rounded font-sm hover-up"></button>
                     </div>
-                        
-                    
                 </div>
             </div>
-            <div class="col-lg-6">
+            <form action="" method="post" >
+              <div class="col-lg-6">
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="mb-4">
-                            <label for="title" class="form-label" style="font-size:25px" >Add New Product</label>
-                                      
-                            <br>
-                            <label for="subtitle" class="form-label">Add,Edit or Delete a product</label>
+                            <label for="product_title" class="form-label" style="font-size:25px;">Add New Category </label>
                            
-                        </div>
+                        </div>                        
                         <div class="mb-4">
-                            <label for="product_title" class="form-label">Product title</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="product_title" name="title">
+                            <label for="product_title" class="form-label">Category title</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryName">
                         </div>
-                        <div class="row gx-3">
+                        <br>
+                        <!-- <div class="row gx-3">
                             <div class="col-md-4  mb-3">
                                 <label for="product_sku" class="form-label">SKU</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_sku" name="">
+                                <input type="text" placeholder="Type here" class="form-control" id="product_sku">
                             </div>
                             <div class="col-md-4  mb-3">
                                 <label for="product_color" class="form-label">Color</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_color" name="">
+                                <input type="text" placeholder="Type here" class="form-control" id="product_color">
                             </div>
-                            
                             <div class="col-md-4  mb-3">
                                 <label for="product_size" class="form-label">Size</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_size" name="">
+                                <input type="text" placeholder="Type here" class="form-control" id="product_size">
                             </div>
-                        </div>
-                        <div class="mb-4">
-                          <label for="product_brand" class="form-label">Category</label>
-                          <input type="text" placeholder="Type here" class="form-control" id="product_brand" name="categoryName">
-                      </div>
-                        <div class="mb-4">
-                            <label for="product_brand" class="form-label">Collection</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="product_brand" name="brand">
+                        </div> -->
+                        
+                            <button type="submit" class="btn btn-primary m-1">Create Category</button>
                         </div>
                     </div>
                 </div> <!-- card end// -->
-                <div class="card mb-4">
+                  <div class="col-md-12">
+                    <!-- <h2 class="content-title card-title">Categories</h2> -->
+                    <table class="table table-bordered table-lg">
+                        <thead>
+                            <tr>
+                                <th class="fs-5" style="width: 30%;">Category Name</th>
+                                <!-- <th class="fs-5" style="width: 50%;">Description</th> -->
+                                <th class="fs-5 text-center" style="width: 20%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% categories.forEach(category => { %>
+                                <tr>
+                                    <td style="width: 30%;">
+                                        <%= category.categoryName %>
+                                    </td>
+                                    
+                                    <td style="width: 20%;">
+                                        <a href="/admin/edit-category/<%= category._id %>" class="btn btn-primary">Edit</a>
+                                        <a href="/admin/delete-category/<%= category._id %>" class="btn btn-primary">Delete</a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+              
+              
+                <!-- <div class="card mb-4">
                     <div class="card-body">
                         <div>
                             <label class="form-label">Description</label>
-                            <textarea placeholder="Type here" class="form-control" rows="4" name=""></textarea>
+                            <textarea placeholder="Type here" class="form-control" rows="4" name="catgDescription"></textarea>
                         </div>
                     </div>
                 </div> <!-- card end// -->
-                <div class="card mb-4">
+                <!-- <div class="card mb-4">
                     <div class="card-body">
                         <div>
                             <label class="form-label">Images</label>
                             <input class="form-control" type="file">
                         </div>
                     </div>
-                </div> <!-- card end// -->
+                </div> -->
             </div>
-            <div class="col-lg-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        
-                        <div class="mb-4">
+            </form>
+            
+                 
+                                                  
+                            
+                            
+                             
+                
+
+                 <!-- card end// -->
+                
+                        <!-- <div class="mb-4">
                             <label class="form-label">Price</label>
-                            <input type="text" placeholder="Type here" class="form-control" name="productPrice">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Promotion Price</label>
-                            <input type="text" placeholder="Type here" class="form-control" name="salePrice">
+                            <input type="text" placeholder="Type here" class="form-control">
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Status</label>
-                            <select class="form-select" name="">
+                            <select class="form-select">
                                 <option>Published</option>
                                 <option>Draft</option>
                             </select>
@@ -304,11 +319,11 @@
                         <div class="mb-4">
                             <label class="form-label">Tags</label>
                             <input type="text" placeholder="Type here" class="form-control">
-                        </div>
+                        </div> -->
                         <!-- <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Tech</a>
                         <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Mobile</a>
-                        <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Apple</a> -->
-                        <hr>
+                        <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Apple</a>
+                        <hr> -->
                         <!-- <h5 class="mb-3">Categories</h5>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="product-cat">
@@ -339,16 +354,7 @@
                             <label class="form-check-label" for="product-cat-8"> Bags </label>
                         </div>
                     </div> -->
-                </div> <!-- card end// -->
-            </div>
-            <!-- <div class="col-9">
-                <div class="content-header">
-                    <h2 class="content-title"></h2>
-                    <div>                                        
-                        <button type="button" class="btn btn-outline-primary m-1">Save to Draft</button>
-                        <button type="button" class="btn btn-primary m-1">Publish</button>
-                    </div>
-                </div>
+                <!-- </div> card end//
             </div>
         </div> -->
     </section>
@@ -423,3 +429,5 @@
 </body>
 
 </html>
+
+

@@ -1,5 +1,4 @@
 const userCollection = require("../../models/userSchema");
-const adminCollection = require("../../models/adminSchema");
 const productCollection = require("../../models/ProductSchema");
 
 

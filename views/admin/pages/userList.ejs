@@ -1,4 +1,4 @@
-<!doctype html>
+
 <html lang="en">
 
 <head>
@@ -45,7 +45,7 @@
                 <span class="hide-menu">Admin Management</span>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link" href='/admin/products' aria-expanded="false">
+                <a class="sidebar-link" href='/admin/Products' aria-expanded="false">
                   <span>
                     <i class="ti ti-article"></i>
                   </span>
@@ -77,7 +77,7 @@
                 </a>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link" href="./userManagement" aria-expanded="false">
+                <a class="sidebar-link" href="./userList" aria-expanded="false">
                   <span>
                     <i class="ti ti-file-description"></i>
                   </span>
@@ -204,126 +204,90 @@
             </ul>
           </div>
         </nav>
+        
       </header>
       <!--  Header End -->
-      <section class="content-main">
-        <div class="row">
-            <div class="col-9">
-                <div class="content-header">
-                    <h4 class="content-title">Add New Product</h4>
-                    <div>
-                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
-                        <button class="btn btn-md rounded font-sm hover-up">Publich</button>
-                    </div>
-                </div>
-            </div>
-            <form action="" method="post" >
-              <div class="col-lg-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <label for="product_title" class="form-label" style="font-size:25px;">Add New Collection </label>
-                           
-                        </div>                        
-                        <div class="mb-4">
-                            <label for="product_title" class="form-label">Collection title</label>
-                            <input type="text" placeholder="Type here" class="form-control" id="product_title" name="collectionName">
-                        </div>
-                        <br>
-                        <!-- <div class="row gx-3">
-                            <div class="col-md-4  mb-3">
-                                <label for="product_sku" class="form-label">SKU</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_sku">
-                            </div>
-                            <div class="col-md-4  mb-3">
-                                <label for="product_color" class="form-label">Color</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_color">
-                            </div>
-                            <div class="col-md-4  mb-3">
-                                <label for="product_size" class="form-label">Size</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_size">
-                            </div>
-                        </div> -->
-                        
-                            <button type="submit" class="btn btn-primary m-1">Create Collection</button>
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div>
-                            <label class="form-label">Description</label>
-                            <textarea placeholder="Type here" class="form-control" rows="4" name="collectionDescription"></textarea>
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div>
-                            <label class="form-label">Images</label>
-                            <input class="form-control" type="file">
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-            </div>
-            </form>
-            
-            <div class="col-lg-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <!-- <div class="mb-4">
-                            <label class="form-label">Price</label>
-                            <input type="text" placeholder="Type here" class="form-control">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Status</label>
-                            <select class="form-select">
-                                <option>Published</option>
-                                <option>Draft</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Tags</label>
-                            <input type="text" placeholder="Type here" class="form-control">
-                        </div> -->
-                        <!-- <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Tech</a>
-                        <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Mobile</a>
-                        <a href="#" class="font-xs hover-up mr-15"><i class="font-xs material-icons md-close text-body"></i> Apple</a>
-                        <hr> -->
-                        <h5 class="mb-3">Categories</h5>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat">
-                            <label class="form-check-label" for="product-cat"> Bracelets </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-1">
-                            <label class="form-check-label" for="product-cat-1"> Earrings </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-2">
-                            <label class="form-check-label" for="product-cat-2"> Necklaces </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-3">
-                            <label class="form-check-label" for="product-cat-3"> Hand Accessories </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-4">
-                            <label class="form-check-label" for="product-cat-4"> Hand Accessories </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-5">
-                            <label class="form-check-label" for="product-cat-5"> Foot Accessories </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="product-cat-8">
-                            <label class="form-check-label" for="product-cat-8"> Bags </label>
-                        </div>
-                    </div>
-                </div> <!-- card end// -->
-            </div>
-        </div>
-    </section>
+      
+    
+        <!-- User Form -->
+
+
+        <div class="container mt-4">
+          <br>
+          <br>
+          <
+          
+        
+          <h1>User Management</h1>
+          <div class="col-search mx-5">
+              <form class="searchform" action="/admin/userList/search" method="post">
+                  <div class="input-group">
+                      <input list="search_terms" type="text" class="form-control" name="search"
+                          placeholder="Search a user">
+                      
+                      <button class="btn btn-primary" type="submit"> <i class="material-icons md-search"></i>Search</button>
+
+                  </div>
+              </form>
+          </div>
+          <table class="table mt-3">
+              <thead>
+                  <tr>
+                      <!-- <th>Profile</th> -->
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% if (users?.length> 0) { %>
+                      <% for (let i=0; i < users.length; i++) { %>
+                          <% if (users[i].fname==='Admin' ) { continue; } %>
+                              <tr>
+                                  <!-- <td><i class="fas fa-user-circle fa-lg"></i></td> -->
+                                  <td><%- users[i].fname %></td>
+                                  <td><%- users[i].email %></td>
+                                  <td><%- users[i].mobile %></td>
+                                  <td>
+  
+                                      <% if (users[i].isBlock) { %>
+  
+                                          <form action="/userList/unBlockUser/<%- users[i]?._id %>" method="post">
+                                              <button type="submit"
+                                                  class="btn btn-success btn-sm unblock-button">Unblock</button>
+                                          </form>
+  
+                                          <% } else { %>
+                                              <form action="/admin/userList/blockUser/<%- users[i]?._id %>" method="post">
+                                                  <button type="submit"
+                                                      class="btn btn-danger btn-sm block-button">Block</button>
+                                              </form>
+                                              <% } %>
+  
+                                  </td>
+                              </tr>
+                              <% } %>
+                                  <% } else { %>
+                                      <tr>
+                                          <td colspan="4">
+                                              <h2>NO USERS FOUND</h2>
+                                          </td>
+                                      </tr>
+                                      <% } %>
+              </tbody>
+          </table>
+  
+  
+      </div>
+
+        
+    </div>
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"
+        aria-hidden="true">
+        <!-- Similar structure as the Add User Modal -->
+    </div>
+    
       <!-- <div class="container-fluid">
         <div class="container-fluid">
           <div class="card">
@@ -387,6 +351,52 @@
       </div>
     </div>
   </div>
+  <style>
+    .custom-toggle {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .custom-toggle input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 15px;
+      width: 15px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+  </style>
+
+   
   <script src="../adminassets/libs/jquery/dist/jquery.min.js"></script>
   <script src="../adminassets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../adminassets/js/sidebarmenu.js"></script>
@@ -394,4 +404,9 @@
   <script src="../adminassets/libs/simplebar/dist/simplebar.js"></script>
 </body>
 
-</html>
+
+    <!-- User Form -->
+    
+       
+
+    

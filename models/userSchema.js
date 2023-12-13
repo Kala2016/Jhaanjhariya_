@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
   fname: {
     required: true,
     type: String,
@@ -26,14 +28,14 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,  
   },
-  
+  status:{
+    type:String,
+  }
 });
 
 const userCollection = mongoose.model("userCollection", userSchema);
 
 
-module.exports = {
-  userCollection
-}
+module.exports = userCollection;
 
 

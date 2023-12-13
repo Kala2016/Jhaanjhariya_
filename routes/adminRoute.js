@@ -1,12 +1,17 @@
 const express = require("express");
 const adminRoute = express.Router();
 const session = require("express-session");
+const { isAdminLoggedIn, isAdminLoggedOut } = require('../middlewares/adminAuth')
+const { adminValidateID } = require('../middlewares/idValidation')
+const { upload } = require('../config/upload')
 const categoryCtrl = require("../controller/adminControllers/categoryCtrl");
 const productCtrl = require("../controller/adminControllers/productCtrl");
 const adminCtrl = require("../controller/adminControllers/adminCtrl");
 const userCtrl = require("../controller/adminControllers/userCtrl");
-const adminAuth = require("../middlewares/adminAuth");
 const collectionCtrl = require("../controller/adminControllers/collectionCtrl");
+
+
+const dotenv = require("dotenv").config();
 
 
 //settings
@@ -14,18 +19,30 @@ const collectionCtrl = require("../controller/adminControllers/collectionCtrl");
 // adminRoute.set('views','.views/admin');
 
 //Admin Login
+adminRoute.get('/', isAdminLoggedOut, adminCtrl.loadLogin)
+adminRoute.post('/', adminCtrl.verifyAdmin);
+adminRoute.get('/logout', isAdminLoggedIn, adminCtrl.logout)
+adminRoute.get('/dashboard', isAdminLoggedIn, adminCtrl.loadDashboard)
 
-adminRoute.get("/", adminCtrl.getAdminRoute);
-adminRoute.post("/dashboard", adminCtrl.postAdminRoute);
-adminRoute.get("/logout", adminAuth.isAdminLogin, adminCtrl.loadlogout);
-adminRoute.get("/dashboard", adminCtrl.loadDash);
+
 
 
 //Product Management
-adminRoute.get("/products", productCtrl.getaddProduct);
-
-
-//Category Management
+adminRoute.get("/Products",productCtrl.productManagement)
+adminRoute.get("/Products",productCtrl.addProduct)
+adminRoute.get("/addProducts",productCtrl.addProduct)
+adminRoute.post('/addProducts',
+        upload.fields([{ name: "images" }]),
+        productCtrl.insertProduct) /** Product adding and multer using  **/
+adminRoute.post('/Products/list/:id', productCtrl.listProduct)
+adminRoute.post('/Products/unList/:id', productCtrl.unListProduct)  
+adminRoute.get('/Products/editProduct',productCtrl.editProduct)    
+adminRoute.get('/Products/editproduct/:id', productCtrl.editProductPage)
+adminRoute.post('/Products/editproduct/:id', productCtrl.updateProduct)
+// adminRoute.put('/Products/edit-image/:id', upload.single("image"), productCtrl.editImage)
+adminRoute.delete('/Products/delete-image/:id', productCtrl.deleteImage)
+ 
+//Category Management   
 
 adminRoute.get("/addCategory", categoryCtrl.getCategory);
 adminRoute.post("/addCategory",categoryCtrl.postCategory)
@@ -34,14 +51,15 @@ adminRoute.post("/addCategory",categoryCtrl.postCategory)
 adminRoute.get("/addCollections", collectionCtrl.getCollections);
 adminRoute.post("/addCollections", collectionCtrl.postCollection);
 
-adminRoute.get("/addProducts", productCtrl.getaddProduct);
+
 
 //User Management
-adminRoute.get("/userManagement",userCtrl.getUser)
-adminRoute.get("/block-user:userid",userCtrl.blockUser)
-adminRoute.get("/unblock-user:userid",userCtrl.unblockUser)
+adminRoute.get("/userList",userCtrl.getUser);
+adminRoute.post("/userList/search",userCtrl.searchUser)
+adminRoute.post("/userList/blockUser/:id",userCtrl.blockUser)
+adminRoute.post("/userList/unBlockUser/:id",userCtrl.unBlockUser)
 
 
-adminRoute.get("/");
+
 
 module.exports = adminRoute;

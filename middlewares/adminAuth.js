@@ -1,36 +1,17 @@
-const isAdminLogin = async (req,res,next)=>{
-    try {
-
-        if(req.session.admin){
-            next();
-        }else{
-            res.redirect('./admin/pages/login')
-        }
-        
-    } catch (error) {
-        console.log(error.message);
+const isAdminLoggedIn = (req, res, next) => {
+    if (req.session.admin) {
+        next();
+    } else {
+        res.redirect('/admin');
     }
+};
 
-}
-
-
-const isAdminLogout = async(req,res,next)=>{
-    try {
-
-        if(req.session.admin){
-            res.redirect('/admin/pages/dashboard')
-        }else{
-            next()
-            
-        }        
-    } catch (error) {
-        console.log(error.message);
-        
+const isAdminLoggedOut = (req, res, next) => {
+    if (!req.session.admin) {
+        next();
+    } else {
+        res.redirect('/admin/pages/dashboard'); 
     }
-}
+};
 
-module.exports={
-
-    isAdminLogin,
-    isAdminLogout
-}
+module.exports = { isAdminLoggedIn, isAdminLoggedOut };

@@ -7,11 +7,11 @@ const categorySchema = new Schema ({
   categoryName:{
     required: true,
     type: String,
-    // unique: true,
+  
   },
-   catgDescription:{
-    required: true,
-    type: String,
+  isListed: {
+    type: Boolean,
+    default: true,
   }
 });
 

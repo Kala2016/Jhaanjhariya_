@@ -1,5 +1,4 @@
 const express = require("express");
-const { dbConnect } = require("./config/dbConnect");
 const path = require("path");
 const app = express();
 const session = require("express-session");
@@ -15,8 +14,10 @@ const PORT = process.env.PORT || 4000;
 
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
+const { notFound, errorHandler } = require('./middlewares/errorHandlers');
 
 // dbConnect();
+const dbConnect = require("./config/dbConnect");
 
 app.use(logger("dev"));
 app.use(nocache());
@@ -41,7 +42,7 @@ app.use(
   session({ 
     secret: uuidv4(),
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 

@@ -1,158 +1,174 @@
-const userCollection = require("../../models/userSchema");
-const nodemailer = require("nodemailer");
+const userCollection  = require("../../models/userSchema");
 const dotenv = require("dotenv").config();
 const bcrypt = require("bcrypt");
+const { sendOtp, generateOTP } = require("../../utility/nodeMailer");
+
 
 //  user signup
 const getUserSignup = (req, res) => {
   res.render("users/pages/user-signup");
+  
 };
- 
-const postUserSignup = async (req, res) => {
-  try{
-    
-  const email = await userCollection.findOne({email: req.body.email });
-  const mobile = await userCollection.findOne({mobile: req.body.mobile});
 
-  console.log(email, mobile)
-
-  if (email) {
-    res.render("users/pages/user-signup", { error: "Email already exists" });
-  } else if (mobile) {
-    res.render("users/pages/user-signup", { error: "PhoneNumber already exists" });
-  } else {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await userCollection.create({
-      fname: req.body.fname,
-      lname: req.body.lname,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      password: hashedPassword,      
-      otpInput:req.body.otpInput,
-      is_Blocked: true,
-    });
-
-    res.render("users/pages/user-login.ejs", { message: "User sign up successfully" });
-  }
-
-  // generating otp for node mailer
-  const generatedOTP = null;
-  function generateOTP() {
-    return Math.floor(100000 + Math.random() * 900000);
-  }
-
-  
-  // Send OTP to the user's email
-  // await sendOtpToEmail(req.body.email,otp);
-  
-  res.redirect("/login");
-   
-  
-}catch (error) {
-console.error(error);
-res.status(500).json({ error: "Internal Server Error" });
+const loadOtp = async(req,res)=>{
+  res.render("users/pages/otpVerify")
 }
-};
 
 
-// sending otp 
-// const getSendOtp = async (req,res) => {
-//   try {
-//     console.log('otp')
-//     const mobile = req.query.mobile;
-//     const existingUser = await userCollection.findOne({
-//       $or: [
-//           { email: req.query.email },
-//           { mobile: mobile }
-//       ]
+const postUserSignup = async (req, res) => {
+  try {
+    console.log('req body',req.body);
+    const emailCheck = req.body.email;
+    const email = await userCollection.findOne({ email: emailCheck });
+    console.log('mail',emailCheck);
+    if (email) {
+      res.render("users/pages/user-signup", {
+        error: "Email already exists,Please try with new email",
+      });
+    } else {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      
+        req.session.fname = req.body.fname,
+        req.session.lname =req.body.lname,
+        req.session.email= req.body.email,
+        req.session.mobile = req.body.mobile,
+        req.session.password =hashedPassword 
+      
 
       
-//     });
-//     if (existingUser) {
-//       // Handle the case where either email or phoneNumber already exists
-//       if (existingUser.email === req.query.email && existingUser.mobile === req.query.mobile) {
-//         res.status(200).json({error: "User already exists"})
-//       } else  {
-//         res.status(200).json({error: "User already exists"})
-//       }
-//   } else 
-//   {
 
-//     const email = req.query.email;
+      const OTP = generateOTP();
+      req.session.otpUser = OTP
+      console.log('Sending OTP to email:', req.body.email);
 
-//     generatedOTP = generateOTP();
+      try {
+        sendOtp(req.body.email, OTP,req.body.fname);
+        return res.redirect("/sendOtp");
+      } catch (error) {
+        console.error("Error sending OTP", error);
+        return res.status(500).send("Error sending OTP");
+      }
+    }
+  } catch (error) {
+    throw new Error(error)  
+  }
+};
 
-    
-
-//       // Create a Transporter
-//     const transporter = nodemailer.createTransport({
-//       host: "smtp.gmail.com",
-//       port: 587,
-//       secure: false,
-//       requireTLS: true,
-//       auth: {
-//         user: "kalartisko@gmail.com",
-//         pass: "zvxd ebqd ojed iuyf",
-//       },
-//     }); 
-
-//       //  Compose and Send an Email
-//     const mailOptions = {
-//       from: 'kalartisko@gmail.com',
-//       to: email,
-//       subject: 'Account verification mail',
-//       text: `Your OTP for verification is: ${generatedOTP}`,
-//     };
-
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.error(error);
-//       } else {
-//         console.log('Email has been sent: ' + info.response);
-//       }
-//     });
-  
-//     res.status(200).json({message: "OTP send to email successfully"})
-//   }
-//   } catch (error) {
-//     console.error(error)
-//   }
-// } 
-
-// verify otp
-const postVerifyOtp = async (req, res) => {
+const sendOTPpage = async (req, res) => {
   try {
-    console.log('Request recieved',req.query);
-    const userEnteredOTP = req.query.otp;
-    const generatedOtp = req.cookies.otp
+      const email = req.session.otpUser.email
+      console.log(req.session.otpUser, 'email', email);
+      res.render('users/pages/otpVerify', { message: email })
+  } catch (error) {
+      throw new Error(error)
+  }
 
-    console.log(generatedOtp)
-    console.log(req.query)
+}
 
-    const email = req.body.email;
-
-    if (userEnteredOTP && generatedOtp && userEnteredOTP === generatedOtp.toString()) {
-      // OTP is correct
-      console.log('success')
-      res.status(200).json({ message: "OTP verification successful" });
-    } else {
-      // Incorrect OTP
-      console.log('failure')
-      res.status(400).json({ error: "Incorrect OTP" });
+const verifyOTP = async (req, res) => {
+  try {
+    const otpUser = req.session.otpUser;
+    console.log('req,rec',otpUser);
+    if (!otpUser) {
+      return res.redirect("users/pages/user-signup");
     }
 
+    const enteredOTP = req.body.otpInput;
+    const userInDB = await userCollection.findOne({
+      email: otpUser.email,
+    });
+    
+    
+    if (userInDB) {
+      // Handle the case where the user is not found in the database
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    if (enteredOTP === otpUser.otp) {
+      otpUser.otp = null; 
+  const newUser = new userCollection({ 
+    // Update user data in the database
+    fname : req.session.fname,
+    lname : req.session.lname,
+    email : req.session.email, 
+    mobile : req.session.mobile,
+    password : req.session.password    
+  })
+
+      await newUser.save();
+
+      req.session.otpUser = null;
+      res.redirect("/login?message=OTP verification successful");
+    } else {
+      res.status(400).json({ error: "Invalid OTP, please try again" });
+    }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
-module.exports={
-postVerifyOtp,
-// getSendOtp,
-postUserSignup,
-getUserSignup,
+const reSendOTP = (req, res) => {
+  try {
+    const OTP = generateOTP();
+
+    req.session.otpUser={
+    otp :{ otp: OTP },
+    email:req.session.otpUser.email,
+    fname:req.session.otpUser.fname
+  };
+
+    // otp resending
+    try {
+      sendOtp(email, OTP, fname);
+      console.log('OTP is sent');
+      return res.render('./users/pages/reSendOTP', { message: email });
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      return res.status(500).send('Error sending OTP');
+    }
+  } catch (error) {
+    console.error('Error in reSendOTP:', error);
+    return res.status(500).send('Internal Server Error');
+  }
+};
+
+const verifyResendOTP = (req, res) => {
+  try {
+    const enteredOTP = req.body.otp;
+    const storedOTP = req.session.otpUser.otp;
+    
+
+    if (enteredOTP ===storedOTP.otp) {
+      const newUser = userCollection.create(req.session.otpUser);
 
 
+      if (newUser) {
+        delete req.session.otpUser.otp;
+        req.flash('success', 'Registration success, Please login');
+        return res.redirect('/login');
+      } else {
+        console.log('Error in inserting user');
+        req.flash('error', 'Error in registration, please try again');
+        return res.redirect('/user-signup');
+      }
+    } else {
+      req.flash('error', 'Invalid OTP, please try again');
+      return res.redirect('/user-signup');
+    }
+  } catch (error) {
+    console.error('Error in verifyResendOTP:', error);
+    req.flash('error', 'Internal Server Error');
+    return res.status(500).send('Internal Server Error');
+  }
+};
 
-}
+module.exports = {
+  verifyOTP,
+  verifyResendOTP,
+  reSendOTP,
+  postUserSignup,
+  getUserSignup,
+  sendOTPpage,
+  loadOtp
+};

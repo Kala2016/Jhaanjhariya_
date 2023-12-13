@@ -9,7 +9,8 @@ const CollectionModel = require("../../models/collectionSchema");
 // render collection page with data
 const getCollections = async (req, res) => {
   try {;
-      res.render("./admin/addCollections",{title:'Collections'});
+      const collections = await CollectionModel.find({})
+      res.render("./admin/pages/addCollections",{title:'Collections',collections});
   } catch (error) {
       console.error(error);
   }
@@ -17,16 +18,19 @@ const getCollections = async (req, res) => {
 
 const postCollection = async (req, res) => {
   try {
-    const {collectionName,collectionDescription} = req.body
+    const {collectionName} = req.body
     const collectionData = await CollectionModel.findOne({ collectionName: collectionName });
+    // if (!collectionDescription) {
+    //   return res.status(400).json({ success: false, message: 'collectionDescription is required' });
+    
     if (collectionData) {
       res.status(409).json({ success: false, message: 'Collection already exists' });
     } else {
-      await CollectionModel.create({
+      const colle =await CollectionModel.create({
         collectionName: collectionName,        
-        collectionDescription:collectionDescription,
+        
       });
-      const collections = await CollectionModel.find();
+      const collections = await CollectionModel.find({});
       res.status(200).json({ success: true, message: 'Collection added successfully', collections });
     }
   } catch (error) {

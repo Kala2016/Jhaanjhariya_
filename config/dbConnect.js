@@ -13,10 +13,11 @@ const dotenv = require("dotenv").config();
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/Jhaanjhariya");
-let db=mongoose.connection;
-db.on('connected', () => {
+let dbConnect =mongoose.connection;
+dbConnect.on('connected', () => {
     console.log('Connected to MongoDB');
 });
-db.on('error', (err) => {
+dbConnect.on('error', (err) => {
     console.log(err);
 });
+module.exports = dbConnect ;

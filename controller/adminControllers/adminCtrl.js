@@ -1,47 +1,50 @@
-
 const userCollection = require("../../models/userSchema");
-const adminCollection = require("../../models/adminSchema");
 
-
-//Login Admin Page  
-const getAdminRoute = async (req, res) => {  
+//Load Login Page
+const loadLogin = async (req, res) => {
   try {
-    res.render("./admin/login", { title: "Login" });
+    res.render("./admin/pages/login", { title: "Login" });
   } catch (error) {
-    console.log("error.message :", error);
+    console.log(error.message);
   }
 };
 
 //verify Admin Login
-
-const postAdminRoute = async (req,res)=>{
+const verifyAdmin = async (req, res) => {
   try {
-    
-    const data =await adminCollection.findOne({email:req.body.email});
-    // const user =await userCollection.find({});
+    const email = process.env.ADMIN_EMAIL;
+    const password = process.env.ADMIN_PASSWORD;
 
-    if(data){
-      if(req.body.email !== data.email && req.body.password === data.password){
-        res.redirect('/users/pages/home')
-      }else if(req.body.email === data.email && req.body.password !== data.password){
-        res.redirect('/')
-      }else{
-      if(req.body.email === data.email && req.body.password === data.password){
-        res.render('./admin/dashboard');
-      }
-      }
-    } else{
-      res.render('/')
-    } 
-  }catch (error) {
+    const emailCheck = req.body.email;
+    const user = await userCollection.findOne({ email: emailCheck });
+
+    if (user) {
+      res.render("./admin/pages/login", {
+        adminCheck: "You are not an Admin",
+        title: "Login",
+      });
+    }
+    if (req.body.email === email && req.body.password === password) {
+      req.session.admin = email;
+      console.log("email", email);
+      res.redirect("admin/dashboard");
+    } else {
+      res.render("./admin/pages/login", {
+        adminCheck: "Invalid Credentials",
+        title: "Login",
+      });
+    }
+  } catch (error) {
     console.log(error.message);
   }
-}
-//load dashboard
+};
 
-const loadDash = async (req, res) => {
+//Load Dashboard
+const loadDashboard = async (req, res) => {
   try {
-    res.render("./admin/dashboard");
+    res.render("./admin/pages/dashboard", {
+      title: "Dashboard",
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -49,7 +52,7 @@ const loadDash = async (req, res) => {
 
 //Logout Admin
 
-const loadlogout = async (req, res) => {
+const logout = async (req, res) => {
   try {
     req.session.admin = null;
     res.redirect("/admin");
@@ -58,24 +61,9 @@ const loadlogout = async (req, res) => {
   }
 };
 
-//admin dashboard
-
-const adminDashboard = async (req, res) => {
-  try {
-    const userData = await User.findOne({ is_admin: 0 });
-    res.render("./admin/dashboard", { users: userData });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-
-
 module.exports = {
-  getAdminRoute,
-  postAdminRoute,  
-  loadDash,
-  adminDashboard,
-  loadlogout,
-
+  loadLogin,
+  verifyAdmin,
+  loadDashboard,
+  logout,
 };
